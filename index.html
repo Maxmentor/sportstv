@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Sports Adda</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  background:#020617;
+  color:white;
+  min-height:100vh;
+  padding-bottom:90px;
+}
+
+/* HEADER */
+header{
+  padding:18px;
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+  background:#0f172a;
+  position:sticky;
+  top:0;
+  z-index:10;
+  box-shadow:0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* CONTROLS */
+.controls{
+  padding:15px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+input, select{
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  outline:none;
+  font-size:14px;
+  background:#0f172a;
+  color:white;
+}
+
+input{ width:200px; }
+
+/* GRID */
+.grid{
+  padding:10px 15px 30px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:15px;
+}
+
+/* CARD */
+.card{
+  background:rgba(255,255,255,0.05);
+  border-radius:14px;
+  padding:12px;
+  cursor:pointer;
+  transition:0.3s;
+  position:relative;
+  overflow:hidden;
+  animation:fadeUp 0.4s ease;
+}
+
+.card:hover{
+  transform:translateY(-5px) scale(1.02);
+  background:rgba(56,189,248,0.15);
+}
+
+.logo{
+  width:100%;
+  height:90px;
+  object-fit:contain;
+  margin-bottom:8px;
+}
+
+.name{
+  font-size:14px;
+  font-weight:bold;
+}
+
+.badges{
+  display:flex;
+  gap:6px;
+  margin-top:5px;
+  flex-wrap:wrap;
+}
+
+.badge{
+  font-size:10px;
+  padding:3px 6px;
+  border-radius:20px;
+  background:#1e293b;
+}
+
+.status{
+  margin-top:6px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.active{ color:#22c55e; }
+.inactive{ color:#ef4444; }
+
+/* LIVE PULSE */
+.live-dot{
+  width:8px;
+  height:8px;
+  background:#22c55e;
+  border-radius:50%;
+  display:inline-block;
+  margin-right:6px;
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+  0%{ box-shadow:0 0 0 0 rgba(34,197,94,0.7); }
+  70%{ box-shadow:0 0 0 8px rgba(34,197,94,0); }
+  100%{ box-shadow:0 0 0 0 rgba(34,197,94,0); }
+}
+
+/* SKELETON */
+.skeleton{
+  border-radius:14px;
+  background:linear-gradient(
+    90deg,
+    rgba(255,255,255,0.05),
+    rgba(255,255,255,0.12),
+    rgba(255,255,255,0.05)
+  );
+  background-size:200% 100%;
+  animation:shine 1.2s infinite;
+  height:140px;
+}
+
+@keyframes shine{
+  to{ background-position:-200% 0; }
+}
+
+/* FOOTER */
+footer{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#020617;
+  padding:14px 10px;
+  text-align:center;
+  font-size:12px;
+  border-top:1px solid rgba(255,255,255,0.08);
+}
+
+.notice{
+  font-size:11px;
+  margin-bottom:6px;
+  color:#94a3b8;
+  line-height:1.4;
+}
+
+footer a{
+  color:#38bdf8;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+/* ANIMATION */
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  input{ width:140px; }
+  header{ font-size:18px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  ⚽ SPORTS ADDA
+</header>
+
+<div class="controls">
+  <input type="text" id="search" placeholder="Search channel...">
+
+  <select id="languageFilter">
+    <option value="all">All Languages</option>
+  </select>
+</div>
+
+<div class="grid" id="channelGrid">
+
+  <!-- Skeleton placeholders -->
+  <div class="skeleton"></div>
+  <div class="skeleton"></div>
+  <div class="skeleton"></div>
+  <div class="skeleton"></div>
+
+</div>
+
+<footer>
+  <div class="notice">
+    We do not host or stream any channels on this platform.  
+    All links displayed here are publicly available on the internet.  
+    Buying or selling these links is strictly prohibited.  
+    This page is created solely for educational purposes to demonstrate how the source code works.
+  </div>
+
+  <a href="https://t.me/maxmentor">maxmentor</a>
+</footer>
+
+<script>
+let allChannels = [];
+
+fetch("channels.json")
+  .then(res => res.json())
+  .then(data => {
+    allChannels = data.channels;
+    populateLanguages(allChannels);
+    renderChannels(allChannels);
+  });
+
+function populateLanguages(channels){
+  const filter = document.getElementById("languageFilter");
+  const languages = [...new Set(channels.map(ch => ch.language))];
+
+  languages.forEach(lang => {
+    const opt = document.createElement("option");
+    opt.value = lang;
+    opt.textContent = lang;
+    filter.appendChild(opt);
+  });
+}
+
+function renderChannels(channels){
+  const grid = document.getElementById("channelGrid");
+  grid.innerHTML = "";
+
+  channels.forEach(ch => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <img class="logo" src="${ch.logo}">
+      <div class="name">${ch.name}</div>
+
+      <div class="badges">
+        <div class="badge">${ch.language}</div>
+      </div>
+
+      <div class="status ${ch.status}">
+        ${ch.status === "active"
+          ? '<span class="live-dot"></span>Active'
+          : '● Inactive'}
+      </div>
+    `;
+
+    card.onclick = () => {
+      if(ch.status !== "active"){
+        alert("Channel Inactive");
+        return;
+      }
+      window.location.href =
+        "player.html?src=" + encodeURIComponent(ch.stream);
+    };
+
+    grid.appendChild(card);
+  });
+}
+
+/* SEARCH + FILTER */
+document.getElementById("search").addEventListener("input", applyFilters);
+document.getElementById("languageFilter").addEventListener("change", applyFilters);
+
+function applyFilters(){
+  const search = document.getElementById("search").value.toLowerCase();
+  const lang = document.getElementById("languageFilter").value;
+
+  const filtered = allChannels.filter(ch => {
+    const matchName = ch.name.toLowerCase().includes(search);
+    const matchLang = lang === "all" || ch.language === lang;
+    return matchName && matchLang;
+  });
+
+  renderChannels(filtered);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+ek json k saath Stylish html page banao .. Naam Sports Adda.        Usme .json se channels ke naam logo language  status (active: greense , In Active: red se) Ayega .. us channel pe click karne pe . Player.html pe wo link open hoga .. player code mai dunga.. tum bas Mst animated Css likhna Mobile Pc Responsive... Aur Play karne pe player rotate ho ke fullscreen me ayega. auto matic....    player.html code is <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MAX PLAYER</title>
+
+<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+
+<style>
+    #player{
+  width:100%;
+  height:100%;
+  animation:rotateIn 0.7s ease;
+}
+
+@keyframes rotateIn{
+  from{
+    transform:rotate(-90deg) scale(0.7);
+    opacity:0;
+  }
+  to{
+    transform:rotate(0deg) scale(1);
+    opacity:1;
+  }
+}
+
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  background:#000;
+}
+#player{
+  width:100%;
+  height:100%;
+}
+</style>
+</head>
+
+<body>
+
+<div id="player"></div>
+
+<script>
+    document.documentElement.requestFullscreen?.();
+
+    
+const params = new URLSearchParams(window.location.search);
+const stream = params.get("src");
+
+if(!stream){
+  alert("No stream found!");
+}
+
+new Clappr.Player({
+  parentId: "#player",
+  source: stream,
+  autoPlay: true,
+  mute: false,
+  width: "100%",
+  height: "100%",
+  mimeType: "application/x-mpegURL",
+  playback: {
+    hlsjsConfig: {
+      xhrSetup: function(xhr, url) {
+        xhr.withCredentials = false;
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
