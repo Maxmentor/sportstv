@@ -1,7 +1,7 @@
 {
   "channels": [
     {
-      "name": "Star Sports 1",
+      "name": "Star Sports 1 Hindi",
       "logo": "https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/imageContent-12222-j9qmbups-v2/imageContent-12222-j9qmbups-m2.png",
       "language": "Hindi",
       "status": "active",
@@ -16,5 +16,6 @@
     }
   ]
 }
+
 
 
