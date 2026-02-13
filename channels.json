@@ -5,14 +5,15 @@
       "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS3pQr8Mu1NORGLaptpsM7aketmHetTQNodA&s",
       "language": "Hindi",
       "status": "active",
-      "stream": "https://example.com/stream1.m3u8"
+      "stream": "https://starsportshindiii.pages.dev/720p.m3u8"
     },
     {
-      "name": "Sony Ten 2",
-      "logo": "https://jiotvimages.cdn.jio.com/dare_images/images/Ten_3.png",
-      "language": "English",
-      "status": "inactive",
-      "stream": "https://example.com/stream2.m3u8"
+      "name": "DD Sports",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/1/16/DD_Sports_logo.svg",
+      "language": "Hindi",
+      "status": "active",
+      "stream": "https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/b17adfe543354fdd8d189b110617cddd/index.m3u8"
     }
   ]
 }
+
