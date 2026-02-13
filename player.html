@@ -2,14 +2,26 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Live TV Player</title>
+  <title>Sports Adda Player</title>
 
   <link rel="stylesheet" href="https://cdn.plyr.io/1.8.2/plyr.css">
+
   <style>
-    body{margin:0;background:black;display:flex;justify-content:center;align-items:center;height:100vh;}
-    video{width:100%;height:100%;}
+    body{
+      margin:0;
+      background:black;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+    video{
+      width:100%;
+      height:100vh;
+    }
   </style>
 </head>
+
 <body>
 
 <video id="player" autoplay controls crossorigin></video>
@@ -19,27 +31,40 @@
 
 <script>
 (function () {
+
   const video = document.getElementById('player');
 
-  const stream = "https://allinonereborn.xyz/filextv/live157.php?id=275036";
+  // 🔥 Get stream URL from query param
+  const params = new URLSearchParams(window.location.search);
+  const source = params.get("src");
+
+  if(!source){
+    alert("No stream source found");
+    return;
+  }
 
   if (Hls.isSupported()) {
     const hls = new Hls();
-    hls.loadSource(stream);
+    hls.loadSource(source);
     hls.attachMedia(video);
+
     hls.on(Hls.Events.MANIFEST_PARSED, function () {
       video.play();
     });
+
   } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    video.src = stream;
+    // Safari native HLS support
+    video.src = source;
     video.addEventListener('loadedmetadata', function () {
       video.play();
     });
   } else {
-    alert("HLS not supported");
+    alert("HLS not supported in this browser");
   }
 
+  // Plyr UI
   plyr.setup(video);
+
 })();
 </script>
 
