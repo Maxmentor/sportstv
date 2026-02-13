@@ -1,71 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Sports Adda Player</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MAX PLAYER</title>
 
-  <link rel="stylesheet" href="https://cdn.plyr.io/1.8.2/plyr.css">
+<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 
-  <style>
-    body{
-      margin:0;
-      background:black;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-    }
-    video{
-      width:100%;
-      height:100vh;
-    }
-  </style>
+<style>
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  background:#000;
+}
+#player{
+  width:100%;
+  height:100%;
+}
+</style>
 </head>
 
 <body>
 
-<video id="player" autoplay controls crossorigin></video>
-
-<script src="https://cdn.jsdelivr.net/hls.js/latest/hls.js"></script>
-<script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
+<div id="player"></div>
 
 <script>
-(function () {
+const params = new URLSearchParams(window.location.search);
+const stream = params.get("src");
 
-  const video = document.getElementById('player');
+if(!stream){
+  alert("No stream found!");
+}
 
-  // 🔥 Get stream URL from query param
-  const params = new URLSearchParams(window.location.search);
-  const source = params.get("src");
-
-  if(!source){
-    alert("No stream source found");
-    return;
+new Clappr.Player({
+  parentId: "#player",
+  source: stream,
+  autoPlay: true,
+  mute: false,
+  width: "100%",
+  height: "100%",
+  mimeType: "application/x-mpegURL",
+  playback: {
+    hlsjsConfig: {
+      xhrSetup: function(xhr, url) {
+        xhr.withCredentials = false;
+      }
+    }
   }
-
-  if (Hls.isSupported()) {
-    const hls = new Hls();
-    hls.loadSource(source);
-    hls.attachMedia(video);
-
-    hls.on(Hls.Events.MANIFEST_PARSED, function () {
-      video.play();
-    });
-
-  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    // Safari native HLS support
-    video.src = source;
-    video.addEventListener('loadedmetadata', function () {
-      video.play();
-    });
-  } else {
-    alert("HLS not supported in this browser");
-  }
-
-  // Plyr UI
-  plyr.setup(video);
-
-})();
+});
 </script>
 
 </body>
