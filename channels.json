@@ -2,7 +2,7 @@
   "channels": [
     {
       "name": "Star Sports 1",
-      "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS3pQr8Mu1NORGLaptpsM7aketmHetTQNodA&s",
+      "logo": "https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/imageContent-12222-j9qmbups-v2/imageContent-12222-j9qmbups-m2.png",
       "language": "Hindi",
       "status": "active",
       "stream": "https://starsportshindiii.pages.dev/720p.m3u8"
@@ -16,4 +16,5 @@
     }
   ]
 }
+
 
