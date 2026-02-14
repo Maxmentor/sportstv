@@ -205,13 +205,10 @@ footer a{
 </div>
 
 <div class="grid" id="channelGrid">
-
-  <!-- Skeleton placeholders -->
   <div class="skeleton"></div>
   <div class="skeleton"></div>
   <div class="skeleton"></div>
   <div class="skeleton"></div>
-
 </div>
 
 <footer>
@@ -228,7 +225,8 @@ footer a{
 <script>
 let allChannels = [];
 
-fetch("channels.json")
+/* ✅ CACHE FIX APPLIED HERE */
+fetch("channels.json", { cache: "no-store" })
   .then(res => res.json())
   .then(data => {
     allChannels = data.channels;
@@ -304,4 +302,3 @@ function applyFilters(){
 
 </body>
 </html>
-
