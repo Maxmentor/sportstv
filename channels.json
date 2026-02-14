@@ -18,11 +18,12 @@
       "name": "DD Sports",
       "logo": "https://upload.wikimedia.org/wikipedia/en/1/16/DD_Sports_logo.svg",
       "language": "Hindi",
-      "status": "active",
+      "status": "inactive",
       "stream": "https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/b17adfe543354fdd8d189b110617cddd/index.m3u8"
     }
   ]
 }
+
 
 
 
